@@ -1,6 +1,9 @@
-# pi-gen
+# dappnodepi-gen
 
-_Tool used to create the raspberrypi.org Raspbian images_
+_Tool used to create the DAppNode for Raspberry Pi images_
+
+
+(Based on pi-gen)
 
 
 ## Dependencies
