@@ -23,7 +23,7 @@ ROOT_MARGIN="$(echo "($ROOT_SIZE * 0.2 + 200 * 1024 * 1024) / 1" | bc)"
 BOOT_PART_START=$((ALIGN))
 BOOT_PART_SIZE=$(((BOOT_SIZE + ALIGN - 1) / ALIGN * ALIGN))
 ROOT_PART_START=$((BOOT_PART_START + BOOT_PART_SIZE))
-ROOT_PART_SIZE=$(((ROOT_SIZE + ROOT_MARGIN + ALIGN  - 1) / ALIGN * ALIGN))
+ROOT_PART_SIZE=$(((ROOT_SIZE + ROOT_MARGIN + ALIGN - 1) / ALIGN * ALIGN))
 IMG_SIZE=$((BOOT_PART_START + BOOT_PART_SIZE + ROOT_PART_SIZE))
 
 truncate -s "${IMG_SIZE}" "${IMG_FILE}"
@@ -71,11 +71,11 @@ echo "/:     offset $ROOT_OFFSET, length $ROOT_LENGTH"
 ROOT_FEATURES="^huge_file"
 for FEATURE in metadata_csum 64bit; do
 	if grep -q "$FEATURE" /etc/mke2fs.conf; then
-	    ROOT_FEATURES="^$FEATURE,$ROOT_FEATURES"
+		ROOT_FEATURES="^$FEATURE,$ROOT_FEATURES"
 	fi
 done
-mkdosfs -n boot -F 32 -v "$BOOT_DEV" > /dev/null
-mkfs.ext4 -L rootfs -O "$ROOT_FEATURES" "$ROOT_DEV" > /dev/null
+mkdosfs -n boot -F 32 -v "$BOOT_DEV" >/dev/null
+mkfs.ext4 -L rootfs -O "$ROOT_FEATURES" "$ROOT_DEV" >/dev/null
 
 mount -v "$ROOT_DEV" "${ROOTFS_DIR}" -t ext4
 mkdir -p "${ROOTFS_DIR}/boot"
